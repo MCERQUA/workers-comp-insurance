@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workers Comp Insurance — Contractors Choice Agency</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --card: #111111;
+      --border: #222222;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --amber: #f59e0b;
+      --amber-dim: #d97706;
+      --green: #22c55e;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    a { color: var(--amber); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .container { max-width: 720px; margin: 0 auto; padding: 0 20px; }
+
+    /* HEADER */
+    header {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 0;
+    }
+    .header-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .header-brand { font-size: 13px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; }
+    .header-phone {
+      background: var(--amber);
+      color: #000;
+      font-weight: 700;
+      font-size: 15px;
+      padding: 8px 18px;
+      border-radius: 4px;
+      letter-spacing: 0.03em;
+    }
+    .header-phone:hover { text-decoration: none; background: var(--amber-dim); }
+
+    /* HERO */
+    .hero {
+      text-align: center;
+      padding: 56px 20px 40px;
+    }
+    .hero h1 {
+      font-size: clamp(26px, 5vw, 40px);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+    .hero h1 span { color: var(--amber); }
+    .hero p {
+      color: var(--muted);
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+    .hero .sub {
+      font-size: 14px;
+      color: var(--green);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* FORM */
+    form {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 32px 28px;
+      margin-bottom: 40px;
+    }
+
+    .form-section {
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+    .form-section:last-of-type { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+
+    .section-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--amber);
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+
+    .field-row { display: flex; gap: 16px; flex-wrap: wrap; }
+    .field { flex: 1 1 240px; display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+    .field.full { flex: 1 1 100%; }
+    .field.half { flex: 1 1 calc(50% - 8px); }
+
+    label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    label .req { color: var(--amber); margin-left: 2px; }
+
+    input, select, textarea {
+      background: var(--bg);
+      border: 1px solid #333;
+      border-radius: 4px;
+      color: var(--text);
+      font-size: 15px;
+      padding: 10px 14px;
+      width: 100%;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--amber);
+    }
+    input::placeholder, textarea::placeholder { color: #475569; }
+    textarea { resize: vertical; min-height: 80px; }
+
+    select { appearance: none; cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2394a3b8' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 38px; }
+
+    .helper {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .owner-entry {
+      background: var(--bg);
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .owner-entry h4 { font-size: 12px; color: var(--muted); margin-bottom: 12px; font-weight: 600; }
+
+    .radio-group { display: flex; gap: 20px; margin-top: 4px; }
+    .radio-group label { color: var(--text); font-size: 15px; cursor: pointer; display: flex; align-items: center; gap: 8px; }
+    .radio-group input[type="radio"] { width: auto; accent-color: var(--amber); }
+
+    .prior-losses-detail { margin-top: 12px; display: none; }
+    .prior-losses-detail.show { display: block; }
+
+    #add-owner {
+      background: transparent;
+      border: 1px dashed #333;
+      color: var(--amber);
+      font-size: 14px;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    #add-owner:hover { border-color: var(--amber); background: rgba(245,158,11,0.05); }
+
+    #remove-owner {
+      background: transparent;
+      border: none;
+      color: #ef4444;
+      font-size: 12px;
+      cursor: pointer;
+      margin-top: 8px;
+      padding: 0;
+    }
+
+    button[type="submit"] {
+      background: var(--amber);
+      color: #000;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      font-weight: 700;
+      padding: 14px 32px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 8px;
+      letter-spacing: 0.02em;
+      transition: background 0.15s;
+    }
+    button[type="submit"]:hover { background: var(--amber-dim); }
+    button[type="submit"]:disabled { background: #92400e; cursor: not-allowed; }
+
+    #success-msg {
+      display: none;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid var(--green);
+      border-radius: 8px;
+      padding: 32px;
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    #success-msg h3 { color: var(--green); font-size: 20px; margin-bottom: 8px; }
+    #success-msg p { color: var(--muted); font-size: 15px; }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 0;
+      text-align: center;
+      color: #475569;
+      font-size: 13px;
+    }
+    footer strong { color: var(--text); }
+    footer p { margin-top: 4px; }
+
+    @media (max-width: 480px) {
+      .field.half { flex: 1 1 100%; }
+      form { padding: 20px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="container header-inner">
+    <div class="header-brand">Contractors Choice Agency</div>
+    <a href="tel:8449675247" class="header-phone">844-967-5247</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <h1>WORKERS <span>COMP</span> INSURANCE</h1>
+    <p>Protect your business and your team.</p>
+    <p class="sub">Get a Quote in 15 Minutes</p>
+  </div>
+</section>
+
+<div class="container">
+  <div id="success-msg">
+    <h3>You're all set.</h3>
+    <p>Thanks — we'll have a quote ready within 15 minutes.</p>
+  </div>
+
+  <form id="quote-form" novalidate>
+
+    <!-- BUSINESS INFO -->
+    <div class="form-section">
+      <div class="section-label">Business Information</div>
+      <div class="field full">
+        <label>Business Name <span class="req">*</span></label>
+        <input type="text" name="business_name" placeholder="ABC Contracting LLC" required>
+      </div>
+      <div class="field-row">
+        <div class="field half">
+          <label>Trade / Description of Work <span class="req">*</span></label>
+          <input type="text" name="trade" placeholder="Roofing, HVAC, Plumbing, etc." required>
+        </div>
+        <div class="field half">
+          <label>Years in Business <span class="req">*</span></label>
+          <input type="number" name="years_in_business" min="0" placeholder="5" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- OWNERS -->
+    <div class="form-section">
+      <div class="section-label">Owner Information</div>
+      <div id="owners-container">
+        <div class="owner-entry" data-index="0">
+          <h4>Owner 1</h4>
+          <div class="field full">
+            <label>Owner Name <span class="req">*</span></label>
+            <input type="text" name="owner_name_0" placeholder="John Smith" required>
+          </div>
+          <div class="field half">
+            <label>Date of Birth <span class="req">*</span></label>
+            <input type="date" name="owner_dob_0" required>
+          </div>
+          <div class="field half ownership-field" style="display:none">
+            <label>Ownership Percentage</label>
+            <input type="number" name="owner_pct_0" min="1" max="100" placeholder="50">
+          </div>
+        </div>
+      </div>
+      <button type="button" id="add-owner">+ Add Another Owner</button>
+    </div>
+
+    <!-- PAYROLL & CLASSIFICATION -->
+    <div class="form-section">
+      <div class="section-label">Payroll & Classification</div>
+      <div class="field-row">
+        <div class="field half">
+          <label>Number of Employees <span class="req">*</span></label>
+          <input type="number" name="num_employees" min="0" placeholder="3" required>
+        </div>
+        <div class="field half">
+          <label>Annual Payroll Estimate <span class="req">*</span></label>
+          <input type="text" name="annual_payroll" placeholder="$150,000" required>
+        </div>
+      </div>
+      <div class="field full">
+        <label>Classification Code(s) <span class="req">*</span></label>
+        <input type="text" name="classification_codes" placeholder="e.g. 5553, 5183" required>
+        <span class="helper">Look on your workers comp audit letter or ask your accountant</span>
+      </div>
+    </div>
+
+    <!-- LOSSES -->
+    <div class="form-section">
+      <div class="section-label">Loss History</div>
+      <div class="field full">
+        <label>Any Prior Losses? <span class="req">*</span></label>
+        <div class="radio-group">
+          <label><input type="radio" name="prior_losses" value="yes" onclick="document.getElementById('loss-detail').style.display='block'"> Yes</label>
+          <label><input type="radio" name="prior_losses" value="no" onclick="document.getElementById('loss-detail').style.display='none'" checked> No</label>
+        </div>
+        <div id="loss-detail" class="prior-losses-detail">
+          <textarea name="prior_losses_detail" placeholder="Describe the loss(es): date, type, amount paid, etc."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- CURRENT POLICY -->
+    <div class="form-section">
+      <div class="section-label">Current Expiring Policy</div>
+      <div class="field-row">
+        <div class="field half">
+          <label>Current Carrier</label>
+          <input type="text" name="current_carrier" placeholder="e.g. State Farm, Hartford">
+        </div>
+        <div class="field half">
+          <label>Expiration Date</label>
+          <input type="date" name="policy_expiration">
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTACT -->
+    <div class="form-section">
+      <div class="section-label">Contact Information</div>
+      <div class="field-row">
+        <div class="field half">
+          <label>Phone <span class="req">*</span></label>
+          <input type="tel" name="phone" placeholder="(480) 555-0100" required>
+        </div>
+        <div class="field half">
+          <label>Email <span class="req">*</span></label>
+          <input type="email" name="email" placeholder="john@contractor.com" required>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" id="submit-btn">Get My Quote</button>
+  </form>
+</div>
+
+<footer>
+  <div class="container">
+    <strong>Contractors Choice Agency</strong><br>
+    12220 E Riggs Rd, Chandler, AZ 85249<br>
+    <a href="tel:8449675247">844-967-5247</a> | <a href="mailto:josh@contractorschoiceagency.com">josh@contractorschoiceagency.com</a>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    let ownerCount = 1;
+
+    document.getElementById('add-owner').addEventListener('click', function() {
+      if (ownerCount >= 4) return;
+      var container = document.getElementById('owners-container');
+      var entry = document.createElement('div');
+      entry.className = 'owner-entry';
+      entry.dataset.index = ownerCount;
+      entry.innerHTML =
+        '<h4>Owner ' + (ownerCount + 1) + '</h4>' +
+        '<button type="button" onclick="this.closest(\'.owner-entry\').remove(); recalcOwnership();">Remove</button>' +
+        '<div class="field full" style="margin-top:8px">' +
+          '<label>Owner Name <span class="req">*</span></label>' +
+          '<input type="text" name="owner_name_' + ownerCount + '" placeholder="Jane Smith" required>' +
+        '</div>' +
+        '<div class="field half">' +
+          '<label>Date of Birth <span class="req">*</span></label>' +
+          '<input type="date" name="owner_dob_' + ownerCount + '" required>' +
+        '</div>' +
+        '<div class="field half ownership-field">' +
+          '<label>Ownership Percentage</label>' +
+          '<input type="number" name="owner_pct_' + ownerCount + '" min="1" max="100" placeholder="50">' +
+        '</div>';
+      container.appendChild(entry);
+      ownerCount++;
+      updateOwnershipVisibility();
+    });
+
+    function updateOwnershipVisibility() {
+      var fields = document.querySelectorAll('.ownership-field');
+      fields.forEach(function(f) { f.style.display = ownerCount > 1 ? 'flex' : 'none'; });
+    }
+
+    function recalcOwnership() {
+      var entries = document.querySelectorAll('.owner-entry');
+      ownerCount = entries.length;
+      updateOwnershipVisibility();
+    }
+
+    document.getElementById('quote-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      var form = e.target;
+      var data = new FormData(form);
+      var obj = {};
+      data.forEach(function(value, key) { obj[key] = value; });
+      // Include radio values cleanly
+      var radios = ['prior_losses'];
+      radios.forEach(function(name) {
+        var checked = form.querySelector('input[name="' + name + '"]:checked');
+        obj[name] = checked ? checked.value : '';
+      });
+
+      fetch('https://social.jam-bot.com/webhook/workers-comp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(obj)
+      })
+      .then(function(res) {
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      })
+      .catch(function() {
+        form.style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    });
+  })();
+</script>
+
+</body>
+</html>
