@@ -229,6 +229,52 @@
       form { padding: 20px 16px; }
     }
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "InsuranceAgency",
+        "@id": "https://contractorschoiceagency.com/#agency",
+        "name": "Contractors Choice Agency",
+        "description": "Independent insurance agency specializing in workers compensation insurance for contractors and trade businesses.",
+        "telephone": "+1-844-967-5247",
+        "email": "josh@contractorschoiceagency.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "12220 E Riggs Rd",
+          "addressLocality": "Chandler",
+          "addressRegion": "AZ",
+          "postalCode": "85249",
+          "addressCountry": "US"
+        },
+        "knowsAbout": ["workers compensation insurance"],
+        "areaServed": {
+          "@type": "State",
+          "name": "Arizona"
+        }
+      },
+      {
+        "@type": "WebSite",
+        "@id": "https://contractorschoiceagency.com/#website",
+        "name": "Workers Comp Insurance — Contractors Choice Agency",
+        "description": "Get a workers compensation insurance quote in 15 minutes for your contracting business.",
+        "publisher": { "@id": "https://contractorschoiceagency.com/#agency" }
+      },
+      {
+        "@type": "Service",
+        "serviceType": "Workers Compensation Insurance",
+        "name": "Workers Compensation Insurance for Contractors",
+        "description": "Workers compensation insurance quotes for contractors and trade businesses including roofing, HVAC, and plumbing. Quote returned within 15 minutes.",
+        "provider": { "@id": "https://contractorschoiceagency.com/#agency" },
+        "areaServed": {
+          "@type": "State",
+          "name": "Arizona"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 

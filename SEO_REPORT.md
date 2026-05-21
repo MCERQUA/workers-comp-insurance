@@ -156,3 +156,23 @@ Date: 2026-05-21
 **SEO Health**: ⚠️ **Needs Work** — The site ranks on basic HTML structure and a clear title, but critical on-page metadata is missing (meta description, structured data, canonical). Social sharing will not preview correctly. Site will be indexed, but lacks signals for rich snippets and local prominence.
 
 **Headline Finding**: Meta description missing; no structured data; no semantic heading hierarchy — fixes recommended before scaling traffic.
+
+---
+
+## 9. Structured Data Update — 2026-05-21
+
+**Files changed**:
+- `index.html` — added `<script type="application/ld+json">` block before `</head>` (single `@graph` payload, three nodes).
+
+**Schema types added**:
+- `InsuranceAgency` (`@id: #agency`) — name, description, telephone (+1-844-967-5247), email, full `PostalAddress` (12220 E Riggs Rd, Chandler, AZ 85249, US), `knowsAbout: ["workers compensation insurance"]`, `areaServed: State/Arizona`.
+- `WebSite` (`@id: #website`) — name, description, `publisher` linked to `#agency`.
+- `Service` — `serviceType: "Workers Compensation Insurance"`, name, description, `provider` linked to `#agency`, `areaServed: State/Arizona`.
+
+**Not added**:
+- `FAQPage` — page has no FAQ content; would require fabricating Q&A copy.
+- Reviews / `aggregateRating` — no review data present on the page.
+
+**Validation**: JSON parsed clean via `json.loads`; three `@graph` nodes resolved with expected `@type` values.
+
+**Remaining gaps from §7 still open**: meta description, canonical, OG tags, robots.txt, sitemap.xml, semantic H2 promotion.
