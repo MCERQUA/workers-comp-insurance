@@ -1,0 +1,48 @@
+# robots.txt for workers-comp-insurance
+# Allow all major search engines and AI crawlers
+
+User-agent: *
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+# AI crawlers
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Disallow build / dev / VCS paths
+User-agent: *
+Disallow: /.netlify/
+Disallow: /node_modules/
+Disallow: /.git/
+
+# NOTE: Domain assumed pending production-deploy confirmation. Update once canonical host is finalized.
+Sitemap: https://workers-comp-insurance.com/sitemap.xml
