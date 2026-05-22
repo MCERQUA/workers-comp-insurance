@@ -176,3 +176,16 @@ Date: 2026-05-21
 **Validation**: JSON parsed clean via `json.loads`; three `@graph` nodes resolved with expected `@type` values.
 
 **Remaining gaps from §7 still open**: meta description, canonical, OG tags, robots.txt, sitemap.xml, semantic H2 promotion.
+
+## Round 3 — repaired 2026-05-22
+- **Domain status: ASSUMED (TBD).** Probed `workers-comp-insurance.com` → no DNS; `workerscompinsurance.com` → 200 but belongs to a different existing business; `contractorschoiceagency.com/workers-comp` → 404. Adopted `https://workers-comp-insurance.com/` (repo-name pattern) as the canonical with TBD-DOMAIN comments in sitemap.xml/robots.txt and a note here.
+- **index.html upgrades:**
+  - Added `<meta name="description">` (255 chars), `<meta name="robots">` (index, follow), `<link rel="canonical">`.
+  - Added full Open Graph block (og:type, url, title, description, image, image:alt, site_name, locale).
+  - Added Twitter Card block (summary_large_image — url, title, description, image, image:alt).
+- **Files created:**
+  - `sitemap.xml` — 1 URL, lastmod 2026-05-22, TBD-DOMAIN comment.
+  - `robots.txt` — allow-all + AI-crawler explicit entries + sitemap reference, TBD-DOMAIN comment.
+  - `404.html` — branded custom 404 with home link + phone CTA, `<meta name="robots" content="noindex, follow">`. **NOTE on HTTP status:** static-HTML deploys must wire 404.html to the server's 404 response (e.g. Netlify `_redirects` `/* /404.html 404` or Apache `ErrorDocument 404`). Without that the page returns 200, which is acceptable for branding but suboptimal for SEO. No deploy-config file present in this repo to wire it up; deferred to host setup.
+- **Skipped:** §7 item 7 (promoting `.section-label` divs to `<h2>`) — out of scope for this sweep (semantic HTML refactor, not foundation SEO). FAQ schema/content also still skipped (no Q&A copy on page; not fabricating). No images present so no alt-text work needed.
+- **Validation:** HTML head parses cleanly; sitemap.xml well-formed via `xml.etree.ElementTree`.
