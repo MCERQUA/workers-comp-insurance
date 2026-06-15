@@ -499,7 +499,7 @@
         obj[name] = checked ? checked.value : '';
       });
 
-      fetch('https://social.jam-bot.com/webhook/workers-comp', {
+      fetch('https://josh.jam-bot.com/social-api/api/leads/webhook/netlify?tenant=josh&site=workers-comp-insurance', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(obj)
